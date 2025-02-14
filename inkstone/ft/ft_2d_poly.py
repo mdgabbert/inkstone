@@ -13,7 +13,7 @@ from scipy.special import jn
 from inkstone.ft.poly_area import poly_area
 
 
-def ft_2d_poly_1(vertices, ks):
+def ft_2d_poly_1(vertices, ks, delta):#TODO implement delta smoothing
     """
     Calculate the fourier transform of a function with value 1 inside a polygon and 0 outside. Assuming none of the required k is at (0, 0)
 
@@ -58,7 +58,7 @@ def ft_2d_poly_1(vertices, ks):
     return s.tolist()
 
 
-def ft_2d_poly(vertices, ks):
+def ft_2d_poly(vertices, ks, delta):
     """
     Calculate the Fourier transform of a function with value 1 inside a polygon shape and 0 outside.
 
@@ -84,7 +84,7 @@ def ft_2d_poly(vertices, ks):
     idx_i = np.where(ks_nm != 0)[0]  # index to where k is not (0, 0)
     ksa1 = np.delete(ksa, idx_0, axis=0)  # new ks array that doesn't contain (0, 0)
 
-    s1 = np.array(ft_2d_poly_1(vertices, ksa1))
+    s1 = np.array(ft_2d_poly_1(vertices, ksa1, delta))
     a = poly_area(vertices)
 
     s = 1j * np.zeros(ks_nm.size)

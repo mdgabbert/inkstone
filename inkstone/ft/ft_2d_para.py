@@ -4,7 +4,7 @@ import numpy as np
 from inkstone.ft.ft_1d_sq import ft_1d_sq
 
 
-def ft_2d_para(a, b, ks, center=(0, 0), shear_angle=90., rotate_angle=0.):
+def ft_2d_para(a, b, ks, center=(0, 0), shear_angle=90., rotate_angle=0., delta=0.):
     """
     Calculate the fourier transform of a function that is 1 in side a parallelogram and 0 outside.
 
@@ -49,8 +49,8 @@ def ft_2d_para(a, b, ks, center=(0, 0), shear_angle=90., rotate_angle=0.):
 
     aksa = (A.T @ ksa.T).T
 
-    sx = ft_1d_sq(a, aksa[:, 0])
-    sy = ft_1d_sq(b1, aksa[:, 1])
+    sx = ft_1d_sq(a, aksa[:, 0], delta)
+    sy = ft_1d_sq(b1, aksa[:, 1], delta)
 
     s = np.exp(-1j * cen @ ksa.T) * sx * sy
 

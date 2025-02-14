@@ -461,6 +461,7 @@ class Inkstone:
                             side_lengths: Tuple[float, float],
                             center: Tuple[float, float] = None,
                             angle: float = None,
+                            delta: Optional[float] = None,
                             pattern_name: Optional[str] = None,
                             **kw_gibbs
                             ):
@@ -468,7 +469,7 @@ class Inkstone:
             warn('This is a 2D calculation (i.e. 1D in-plane). Setting 2D in-plane patterns may lead to unexpected results.', RuntimeWarning)
 
         if layer in self.layers.keys():
-            self.layers[layer].add_box(material, "rectangle", box_name=pattern_name, side_lengths=side_lengths, center=center, angle=angle, **kw_gibbs)
+            self.layers[layer].add_box(material, "rectangle", box_name=pattern_name, side_lengths=side_lengths, center=center, angle=angle, delta=delta, **kw_gibbs)
             # propagate if_mod of the layer to all layer copies
             if self.layers[layer].if_mod:
                 for ly in self.layers.values():
@@ -484,6 +485,7 @@ class Inkstone:
                                 center: Tuple[float, float] = None,
                                 angle: float = None,
                                 shear_angle: float = None,
+                                delta: Optional[float] = None,
                                 pattern_name: Optional[str] = None,
                                 **kw_gibbs
                                 ):
@@ -492,7 +494,7 @@ class Inkstone:
             warn('This is a 2D calculation (i.e. 1D in-plane). Setting 2D in-plane patterns may lead to unexpected results.', RuntimeWarning)
 
         if layer in self.layers.keys():
-            self.layers[layer].add_box(material, "parallelogram", box_name=pattern_name, side_lengths=side_lengths, center=center, angle=angle, shear_angle=shear_angle, **kw_gibbs)
+            self.layers[layer].add_box(material, "parallelogram", box_name=pattern_name, side_lengths=side_lengths, center=center, angle=angle, shear_angle=shear_angle, delta=delta, **kw_gibbs)
             # propagate if_mod of the layer to all layer copies
             if self.layers[layer].if_mod:
                 for ly in self.layers.values():
@@ -506,6 +508,7 @@ class Inkstone:
                        material: str,
                        radius: float,
                        center: Tuple[float, float] = None,
+                       delta: Optional[float] = None,
                        pattern_name: Optional[str] = None,
                        **kw_gibbs
                        ):
@@ -513,7 +516,7 @@ class Inkstone:
             warn('This is a 2D calculation (i.e. 1D in-plane). Setting 2D in-plane patterns may lead to unexpected results.', RuntimeWarning)
 
         if layer in self.layers.keys():
-            self.layers[layer].add_box(material, "disk", box_name=pattern_name, radius=radius, center=center, **kw_gibbs)
+            self.layers[layer].add_box(material, "disk", box_name=pattern_name, radius=radius, center=center, delta=delta, **kw_gibbs)
             # propagate if_mod of the layer to all layer copies
             if self.layers[layer].if_mod:
                 for ly in self.layers.values():
@@ -528,6 +531,7 @@ class Inkstone:
                           half_lengths: Tuple[float, float],
                           center: Tuple[float, float] = None,
                           angle: float = None,
+                          delta: Optional[float] = None,
                           pattern_name: Optional[str] = None,
                           **kw_gibbs
                           ):
@@ -535,7 +539,7 @@ class Inkstone:
             warn('This is a 2D calculation (i.e. 1D in-plane). Setting 2D in-plane patterns may lead to unexpected results.', RuntimeWarning)
 
         if layer in self.layers.keys():
-            self.layers[layer].add_box(material, "ellipse", box_name=pattern_name, half_lengths=half_lengths, center=center, angle=angle, **kw_gibbs)
+            self.layers[layer].add_box(material, "ellipse", box_name=pattern_name, half_lengths=half_lengths, center=center, angle=angle, delta=delta, **kw_gibbs)
             # propagate if_mod of the layer to all layer copies
             if self.layers[layer].if_mod:
                 for ly in self.layers.values():
@@ -548,6 +552,7 @@ class Inkstone:
                           layer: str,
                           material: str,
                           vertices: List[Tuple[float, float]],
+                          delta: Optional[float] = None,
                           pattern_name: Optional[str] = None,
                           **kw_gibbs
                           ):
@@ -555,7 +560,7 @@ class Inkstone:
             warn('This is a 2D calculation (i.e. 1D in-plane). Setting 2D in-plane patterns may lead to unexpected results.', RuntimeWarning)
 
         if layer in self.layers.keys():
-            self.layers[layer].add_box(material, "polygon", box_name=pattern_name, vertices=vertices, **kw_gibbs)
+            self.layers[layer].add_box(material, "polygon", box_name=pattern_name, vertices=vertices, delta=delta, **kw_gibbs)
             # propagate if_mod of the layer to all layer copies
             if self.layers[layer].if_mod:
                 for ly in self.layers.values():

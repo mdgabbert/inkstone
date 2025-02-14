@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def ft_1d_sq(width, ks, center=0.):
+def ft_1d_sq(width, ks, center=0., delta=0.):
 
     """
     Calculate the Fourier transform of a 1d square function.
@@ -32,6 +32,9 @@ def ft_1d_sq(width, ks, center=0.):
 
     s = np.exp(-1j * center * ksa) * width * np.sinc(ksa * width / 2. / np.pi)
     # note numpy sinc(x) definition is sin(pi x) / (pi x)
-
+    print(delta)
+    if delta > 0:
+        s *= np.sinc(ksa * delta / 2. / np.pi)#np.exp(-1j * delta * ksa) * 
+    
     return s.tolist()
 

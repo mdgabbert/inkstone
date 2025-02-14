@@ -110,7 +110,7 @@ class Shp:
 
 
 class OneD(Shp):
-    def __init__(self, width: float, center: float = None, **kwargs):
+    def __init__(self, width: float, center: float = None, delta: float = None, **kwargs):
         """
         This is a 1D shape.
 
@@ -124,6 +124,7 @@ class OneD(Shp):
 
         self.width = width
         self.center = center
+        self.delta = delta
 
     @property
     def width(self) -> float:
@@ -168,12 +169,20 @@ class OneD(Shp):
             else:
                 self._ks: List[float] = val
 
+    @property
+    def delta(self):
+        return self._delta
+
+    @delta.setter
+    def delta(self, val):
+        self._delta = val
+
     def _calc_ft(self) -> List[complex]:
-        return ft_1d_sq(self.width, self.ks, self.center)
+        return ft_1d_sq(self.width, self.ks, self.center, self.delta)
 
 
 class Rect(Shp):
-    def __init__(self, side_lengths, center=None, angle=None, **kwargs):
+    def __init__(self, side_lengths, center=None, angle=None, delta=None, **kwargs):
         """
         A rectangular shape.
 
@@ -192,6 +201,7 @@ class Rect(Shp):
         self.side_lengths = side_lengths
         self.center = center
         self.angle = angle
+        self.delta = delta
 
     @property
     def side_lengths(self):
@@ -226,16 +236,24 @@ class Rect(Shp):
                 self._angle = 0.
         else:
             self._angle = val
+    
+    @property
+    def delta(self):
+        return self._delta
+
+    @delta.setter
+    def delta(self, val):
+        self._delta = val
 
     def _calc_ft(self) -> List[complex]:
         """
         Get fourier coefficients at given k points
         """
-        return ft_2d_rct(self.side_lengths[0], self.side_lengths[1], self.ks, self.center, self.angle)
+        return ft_2d_rct(self.side_lengths[0], self.side_lengths[1], self.ks, self.center, self.angle, self.delta)
 
 
 class Para(Shp):
-    def __init__(self, side_lengths, center=None, shear_angle=None, angle=None, **kwargs):
+    def __init__(self, side_lengths, center=None, shear_angle=None, angle=None, delta=None, **kwargs):
         """
         A parallelogram shape.
 
@@ -268,6 +286,7 @@ class Para(Shp):
         self.center = center
         self.angle = angle
         self.shear_angle = shear_angle
+        self.delta = delta
 
     @property
     def side_lengths(self):
@@ -315,15 +334,23 @@ class Para(Shp):
         else:
             self._shear_angle = val
 
+    @property
+    def delta(self):
+        return self._delta
+
+    @delta.setter
+    def delta(self, val):
+        self._delta = val
+
     def _calc_ft(self) -> List[complex]:
         """
         Get fourier coefficients at given k points
         """
-        return ft_2d_para(a=self.side_lengths[0], b=self.side_lengths[1], ks=self.ks, center=self.center, shear_angle=self.shear_angle, rotate_angle=self.angle)
+        return ft_2d_para(a=self.side_lengths[0], b=self.side_lengths[1], ks=self.ks, center=self.center, shear_angle=self.shear_angle, rotate_angle=self.angle, delta=self.delta)
 
 
 class Elli(Shp):
-    def __init__(self, half_lengths, center=None, angle=None, **kwargs):
+    def __init__(self, half_lengths, center=None, angle=None, delta=None, **kwargs):
         """
         A ellipse shape.
 
@@ -343,6 +370,7 @@ class Elli(Shp):
 
         self.center = center
         self.angle = angle
+        self.delta = delta
 
     @property
     def half_lengths(self):
@@ -378,16 +406,23 @@ class Elli(Shp):
         else:
             self._angle = val
 
+    @property
+    def delta(self):
+        return self._delta
+
+    @delta.setter
+    def delta(self, val):
+        self._delta = val
+
     def _calc_ft(self) -> List[complex]:
         """
         Get fourier coefficients at given k points
         """
-        return ft_2d_ellip(self.half_lengths[0], self.half_lengths[1], self.ks, self.center, self.angle)
+        return ft_2d_ellip(self.half_lengths[0], self.half_lengths[1], self.ks, self.center, self.angle, self.delta)
 
 
 class Disk(Shp):
-
-    def __init__(self, radius, center=None, **kwargs):
+    def __init__(self, radius, center=None, delta=None, **kwargs):
         """
         A disk shape.
         """
@@ -398,6 +433,7 @@ class Disk(Shp):
         self._center = None
 
         self.center = center
+        self.delta = delta
 
     @property
     def radius(self):
@@ -423,15 +459,23 @@ class Disk(Shp):
         else:
             self._center = val
 
+    @property
+    def delta(self):
+        return self._delta
+
+    @delta.setter
+    def delta(self, val):
+        self._delta = val
+
     def _calc_ft(self) -> List[complex]:
         """
         Get fourier coefficients at given k points
         """
-        return ft_2d_disk(self.radius, self.ks, self.center)
+        return ft_2d_disk(self.radius, self.ks, self.center, self.delta)
 
 
 class Poly(Shp):
-    def __init__(self, vertices, **kwargs):
+    def __init__(self, vertices, delta=None, **kwargs):
         """
         A polygon shape
 
@@ -443,6 +487,7 @@ class Poly(Shp):
         super(Poly, self).__init__('polygon', **kwargs)
 
         self.vertices = vertices
+        self.delta = delta
 
     @property
     def vertices(self):
@@ -454,9 +499,17 @@ class Poly(Shp):
         self._vertices = val
         self.area = poly_area(val)
 
+    @property
+    def delta(self):
+        return self._delta
+
+    @delta.setter
+    def delta(self, val):
+        self._delta = val
+
     def _calc_ft(self) -> List[complex]:
         """
         Get fourier coefficients at given k points
         """
-        return ft_2d_poly(self.vertices, self.ks)
+        return ft_2d_poly(self.vertices, self.ks, self.delta)
 

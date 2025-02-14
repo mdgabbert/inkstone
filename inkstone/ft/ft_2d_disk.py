@@ -5,7 +5,7 @@ from scipy.special import jn
 from typing import Union
 
 
-def ft_2d_disk(r, ks, center=None):
+def ft_2d_disk(r, ks, center=None, delta=0.): #TODO implement delta edge smoothing
     """
     calculate the fourier transform of a function, its value is 1 inside a disk, outside its value is 0.
 
