@@ -50,6 +50,8 @@ def ft_2d_ellip(a, b, ks, center=None, angle=0., delta=0.): #TODO implement delt
     s = 1j * np.zeros(aks_nm.size)
     s[idx_i] = np.abs(la.det(aff)) * 2 * np.pi * jn(1, aks_nm1) / aks_nm1 * np.exp(-1j * cent @ ksa1.T)
     s[idx_0] = np.pi * a * b
+    if delta > 0:
+        s[idx_i] *= np.sinc(ksa * delta / 2. / np.pi)
 
     return s.tolist()
 

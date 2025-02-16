@@ -4,7 +4,7 @@ import numpy as np
 from inkstone.ft.ft_1d_sq import ft_1d_sq
 
 
-def ft_2d_rct(a, b, ks, center=None, angle=0., delta=0.):
+def ft_2d_rct(a, b, ks, center=None, angle=0., delta=None):
     """
 
     Parameters
@@ -21,11 +21,12 @@ def ft_2d_rct(a, b, ks, center=None, angle=0., delta=0.):
     s               :   list[complex]
                         1d array
     """
-    print(center)
-    print(delta)
     if center is None:
         center = (0., 0.)
     cen = np.array(center)
+    
+    if delta is None:
+        delta = 0
 
     ksa = np.array(ks)  # Nx2 array
 
@@ -33,8 +34,8 @@ def ft_2d_rct(a, b, ks, center=None, angle=0., delta=0.):
     rot = np.array([[np.cos(ang), -np.sin(ang)], [np.sin(ang), np.cos(ang)]])
     aksa = (rot.T @ ksa.T).T
 
-    sx = ft_1d_sq(a, aksa[:, 0], delta)
-    sy = ft_1d_sq(b, aksa[:, 1], delta)
+    sx = ft_1d_sq(a, aksa[:, 0], delta = delta)
+    sy = ft_1d_sq(b, aksa[:, 1], delta = delta)
 
     s = np.exp(-1j * cen @ ksa.T) * sx * sy
 
