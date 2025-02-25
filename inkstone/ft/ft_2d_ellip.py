@@ -5,7 +5,7 @@ import numpy.linalg as la
 from scipy.special import jn
 
 
-def ft_2d_ellip(a, b, ks, center=None, angle=0., delta=0.): #TODO implement delta edge smoothing
+def ft_2d_ellip(a, b, ks, center=None, angle=0., delta=0.):
     """
     Calculate the fourier transform of a function with value 1 inside a ellipse and 0 outside.
 
@@ -47,11 +47,12 @@ def ft_2d_ellip(a, b, ks, center=None, angle=0., delta=0.): #TODO implement delt
         center = (0, 0)
     cent = np.array(center)
 
+    if delta is None: delta = 0
+
     s = 1j * np.zeros(aks_nm.size)
     s[idx_i] = np.abs(la.det(aff)) * 2 * np.pi * jn(1, aks_nm1) / aks_nm1 * np.exp(-1j * cent @ ksa1.T)
     s[idx_0] = np.pi * a * b
     if delta > 0:
-        s[idx_i] *= np.sinc(ksa * delta / 2. / np.pi)
+        s[idx_i] *= np.sinc(aks_nm1 * delta / 2. / np.pi)
 
     return s.tolist()
-
